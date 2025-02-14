@@ -23,11 +23,7 @@ try:
         build_config,
         PYTHON_PATH,
         WHEELS_ROOT_ABS_PATH,
-        PYTHON_VERSION,
-        OS_TYPE,
-    )
-    from build_utils_windows import (
-        install_windows_build_tool_dependencies
+        PYTHON_VERSION
     )
     from shared_utils.log_utils import cstr
     
@@ -49,10 +45,6 @@ try:
         for wheel_path in glob.glob(os.path.join(builds_dir, "**/*.whl"), recursive=True):
             subprocess.run([PYTHON_PATH, "-s", "-m", "pip", "install", "--no-deps", "--force-reinstall", wheel_path])
             cstr(f"pip install {wheel_path} to {PYTHON_PATH}").msg.print()
-    
-    # If on windows, install build tool dependencies
-    if OS_TYPE == 'win':
-        install_windows_build_tool_dependencies()
     
     # Install packages that needs specify remote url
     install_remote_packages(build_config.build_base_packages)
